@@ -20,7 +20,7 @@ class IOBLayer(nn.Module):
 
     def forward_all(self, input) -> Tensor:
         input = input.unsqueeze(1)
-        input = input.expand(-1, self.dim+1, self.dim)
+        input = input.expand(-1, self.num_features+1, self.num_features)
         return torch.tril(input, diagonal=-1)  # accounting for fully-closed
 
 
