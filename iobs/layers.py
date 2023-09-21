@@ -55,12 +55,12 @@ class IOBLayer(nn.Module):
 
 class StochasticIOBLayer(IOBLayer):
     def __init__(self, num_features: int, dist='uniform', device=None,
-                 **dist_kwargs) -> None:
+                 min_open=0, **dist_kwargs) -> None:
         super().__init__(num_features, device)
 
         self.min_open = 0
         self.dist = dist
-        self.distargs = dist_kwargs
+        self.dist_kwargs = dist_kwargs
 
     def _sample_n_open(self) -> int:
         """Returns a random sampling of the distribution specified in
