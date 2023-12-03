@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from torch import nn, Tensor
 
@@ -36,6 +37,7 @@ class IOBLayer(nn.Module):
         """Pass though only the first n_open nodes for the whole batch.
         Equivalent to a bottleneck of width n_open.
         """
+        self.range = self.range.to(input.device)
         mask = self.range.le(n_open)
         return self.forward_mask(input, mask)
 
@@ -71,7 +73,7 @@ class StochasticIOBLayer(IOBLayer):
                 pass of the layer.
         """
         if self.dist == 'uniform':
-            sample = torch.randint(0, self.num_features-self.min_open)
+            sample = np.random.randint(0, self.num_features-self.min_open)
         elif self.dist == 'geometric':
             sample = torch.distributions.Geometric(**self.dist_kwargs).sample()
         elif self.dist == 'poisson':
