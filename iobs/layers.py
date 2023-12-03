@@ -18,6 +18,7 @@ class IOBLayer(nn.Module):
         """
         super().__init__()
         self.num_features = num_features
+        self.device = device
         self.range = torch.arange(1, 1+self.num_features).to(device)
 
     def forward(self, input: Tensor) -> Tensor:
@@ -60,7 +61,7 @@ class StochasticIOBLayer(IOBLayer):
                  min_open=0, **dist_kwargs) -> None:
         super().__init__(num_features, device)
 
-        self.min_open = 0
+        self.min_open = min_open
         self.dist = dist
         self.dist_kwargs = dist_kwargs
 
