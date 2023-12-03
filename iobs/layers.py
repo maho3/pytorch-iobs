@@ -57,8 +57,27 @@ class IOBLayer(nn.Module):
 
 
 class StochasticIOBLayer(IOBLayer):
-    def __init__(self, num_features: int, dist='uniform', device=None,
+    def __init__(self, num_features: int, device=None, dist='uniform',
                  min_open=0, **dist_kwargs) -> None:
+        """Pytorch module which applies IOB masking on latent variables.
+        Randomly samples the number of open connections from a specified
+        distribution. Currently only supports dense connections with inputs
+        of shape (batch_size, num_features).
+
+        Args:
+            num_features (int): Number of features to expect in the input.
+                Equivalent to maximum bottleneck width.
+            device (_type_, optional): Device on which this module will
+                be stored. Can be set to None, 'cpu', 'gpu', or 'mps'.
+                Defaults to None.
+            dist (str, optional): Distribution from which to sample the
+                number of open connections. Currently supports 'uniform',
+                'geometric', and 'poisson'. Defaults to 'uniform'.
+            min_open (int, optional): Minimum number of open connections
+                for the forward pass. Defaults to 0.
+            **dist_kwargs: Keyword arguments to pass to the distribution
+                specified in dist.
+        """
         super().__init__(num_features, device)
 
         self.min_open = min_open
