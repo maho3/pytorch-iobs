@@ -1,5 +1,6 @@
 # Pytorch IOBs
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/maho3/pytorch-iobs/blob/main/LICENSE)
+[![tests](https://github.com/maho3/pytorch-iobs/actions/workflows/iob-tests.yml/badge.svg)](https://github.com/maho3/pytorch-iobs/actions/workflows/iob-tests.yml)
 
 A lightweight implementation of Information-Ordered Bottlenecks (IOBs) in PyTorch. **For theory details, see the [paper](https://arxiv.org/abs/2305.11213).**
 
@@ -30,7 +31,7 @@ Here, the `forward_neck` function only allows information to pass through the fi
 The `IOBLayer` has four differentiable methods to pass forward information.
 * `IOBLayer.forward(input)` passes all the information through all the nodes and is equivalent to an Identity matrix multiplication.
 * `IOBLayer.forward_neck(input, n_open)` only passes information through the first `n_open` nodes.
-* `IOBLayer.forwad_mask(input, mask)` allows one to pass a custom mask which will be applied to the latents. For a batch size of 1, this is functionally equivalent to `input*mask`.
+* `IOBLayer.forward_mask(input, mask)` allows one to pass a custom mask which will be applied to the latents. For a batch size of 1, this is functionally equivalent to `input*mask`.
 * `IOBLayer.forward_all(input)` passes information through all possible `n_open` bottlenecks, and aggregates all configurations into a new batch dimension. For example, if `input.shape=(64,8)`, wherein the max width of the IOBLayer is 8, then the output of `IOBLayer.forward_all(input)` is of shape `(64,9,8)`, where each element of the second axis represents a different `n_open` (including `n_open=0`). This can be later flattened into a larger batch (e.g. `(64*9,8)`) and passed as a regular tensor to the downstream architecture.
 
 ## Installation
